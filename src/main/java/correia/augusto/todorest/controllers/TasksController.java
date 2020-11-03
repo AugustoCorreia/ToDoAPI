@@ -14,20 +14,24 @@ public class TasksController {
     public final Integer STATUS_COMPLETED = 2;
     @Autowired
     TasksRepository tasksRepository;
-
-   @PostMapping
+    @CrossOrigin
+    @PostMapping
     public TasksModel createTask(@RequestBody TasksModel task){
            return tasksRepository.save(task);
     }
+    @CrossOrigin
     @GetMapping
     public Iterable<TasksModel> findAll(){
         return  tasksRepository.findAll();
     }
+    @CrossOrigin
     @GetMapping("/{id}")
     public ResponseEntity<TasksModel> getTaskById(@PathVariable("id") Integer id) {
          return tasksRepository.findById(id).map(record -> ResponseEntity.ok().body(record))
                  .orElse(ResponseEntity.notFound().build());
     }
+
+    @CrossOrigin
     @PutMapping("/{id}")
     public ResponseEntity<TasksModel> updateTask(@PathVariable("id") Integer id, @RequestBody TasksModel task) {
         return tasksRepository.findById(id).map(record -> {
@@ -36,6 +40,7 @@ public class TasksController {
             return ResponseEntity.ok().body(updated);
         }).orElse(ResponseEntity.notFound().build());
     }
+    @CrossOrigin
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTask(@PathVariable("id") Integer id) {
        return tasksRepository.findById(id).map(record -> {
